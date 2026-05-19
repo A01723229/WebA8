@@ -1,27 +1,21 @@
 import jwt from 'jsonwebtoken';
-import { Router } from 'express';
 
-export const validateJWT = Router();
-
-validateJWT.use((req,res,next)=>{
-
+export const validateJWT = (req, res, next) => {
     let token = req.headers.authorization
-    if(!token){
-        res.status(401).json({msg:"Se necesita un token"})
-        return
+    if (!token) {
+        return res.status(401).json({ msg: "Se necesita un token" })
     }
 
-    if(token.startsWith("Bearer")){
+    if (token.startsWith("Bearer ")) {
         token = token.split(" ")[1]
     }
-    jwt.verify(token,process.env.JWT,(e,decoded)=>{
-        if(e){
-            res.status(401).json({msg:"e.message"})
 
-        }else{
+    jwt.verify(token, process.env.JWT, (e, decoded) => {
+        if (e) {
+            res.status(401).json({ msg: e.message })
+        } else {
             req.decoded = decoded
             next()
-
         }
     })
-})
+}

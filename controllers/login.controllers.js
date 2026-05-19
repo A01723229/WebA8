@@ -1,4 +1,3 @@
-import { token } from "morgan"
 import User from "../models/users.model.js"
 import {hash } from "../utils/hash.js"
 import jwt from "jsonwebtoken"
