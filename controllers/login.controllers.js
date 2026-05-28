@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 export const login = async (req, res)=>{
     const {username, password} = req.body
     const user = await User.findOne({username:username})
+    if(!user) return res.status(404).json({login:false,msg:"user not found",user:{},token:""})
     const salt = user.password.substring(0,process.env.SALT_SIZE)
     const hashed = hash(password, salt)
     
